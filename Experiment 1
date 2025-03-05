@@ -1,0 +1,137 @@
+Here is the **SQL script** for creating the required **database, tables, and applying DDL & DCL commands** as per the given assignment.  
+
+---
+
+### **1) Create a Database**
+```sql
+CREATE DATABASE BankSystem;
+```
+
+### **2) Show Databases**
+```sql
+SHOW DATABASES;
+```
+
+### **3) Use the Database**
+```sql
+USE BankSystem;
+```
+
+### **4) Drop Database**
+```sql
+DROP DATABASE BankSystem;
+```
+
+---
+
+## **Table Creation (DDL Commands)**  
+
+### **5) Create Tables and Describe Them**
+```sql
+-- Create CUSTOMER Table
+CREATE TABLE CUSTOMER (
+    Cust_id VARCHAR(10) PRIMARY KEY,
+    C_name VARCHAR(15) NOT NULL,
+    City VARCHAR(10)
+);
+
+-- Create BRANCH Table
+CREATE TABLE BRANCH (
+    Branch_id VARCHAR(5) PRIMARY KEY,
+    bname VARCHAR(15),
+    City VARCHAR(10)
+);
+
+-- Create DEPOSIT Table
+CREATE TABLE DEPOSIT (
+    Acc_no VARCHAR(10) PRIMARY KEY,
+    Cust_id VARCHAR(10) NOT NULL,
+    Amount INT,
+    Branch_id VARCHAR(5),
+    Open_date DATE,
+    FOREIGN KEY (Cust_id) REFERENCES CUSTOMER(Cust_id),
+    FOREIGN KEY (Branch_id) REFERENCES BRANCH(Branch_id)
+);
+
+-- Create BORROW Table
+CREATE TABLE BORROW (
+    Loan_no VARCHAR(5) PRIMARY KEY,
+    Cust_id VARCHAR(10),
+    Branch_id VARCHAR(5),
+    Amount INT,
+    FOREIGN KEY (Cust_id) REFERENCES CUSTOMER(Cust_id),
+    FOREIGN KEY (Branch_id) REFERENCES BRANCH(Branch_id)
+);
+
+-- Describe Tables
+DESC CUSTOMER;
+DESC BRANCH;
+DESC DEPOSIT;
+DESC BORROW;
+```
+
+---
+
+## **6) Alter Table Commands**
+```sql
+-- i) Add column address to CUSTOMER table
+ALTER TABLE CUSTOMER ADD Address VARCHAR(50);
+
+-- ii) Modify column data type of City
+ALTER TABLE CUSTOMER MODIFY City VARCHAR(20);
+
+-- iii) Rename column Address to New_Address
+ALTER TABLE CUSTOMER CHANGE Address New_Address VARCHAR(50);
+
+-- iv) Drop column Address from CUSTOMER table
+ALTER TABLE CUSTOMER DROP COLUMN New_Address;
+
+-- v) Rename table BRANCH to BRANCH1
+ALTER TABLE BRANCH RENAME TO BRANCH1;
+```
+
+---
+
+## **7) DCL Commands - Grant and Revoke**
+```sql
+-- Grant SELECT, INSERT on CUSTOMER table to user 'user1'
+GRANT SELECT, INSERT ON CUSTOMER TO 'user1'@'localhost';
+
+-- Revoke INSERT permission from user 'user1'
+REVOKE INSERT ON CUSTOMER FROM 'user1'@'localhost';
+```
+
+---
+
+## **8) Truncate Table**
+```sql
+TRUNCATE TABLE CUSTOMER;
+```
+
+---
+
+## **9) Drop Table**
+```sql
+DROP TABLE CUSTOMER;
+```
+
+---
+
+### **ER Diagram Representation**
+To represent this database as an **ER Diagram**, the key relationships are:
+
+- **CUSTOMER** (Cust_id as **Primary Key**)  
+- **BRANCH** (Branch_id as **Primary Key**)  
+- **DEPOSIT** (Acc_no as **Primary Key**, Cust_id & Branch_id as **Foreign Keys**)  
+- **BORROW** (Loan_no as **Primary Key**, Cust_id & Branch_id as **Foreign Keys**)  
+
+You can draw this **ER Diagram** using tools like **MySQL Workbench, Lucidchart, or Draw.io** to visually represent these relationships.
+
+---
+
+### ✅ **Summary of Commands Used:**
+✔ **DDL (Data Definition Language):** `CREATE`, `ALTER`, `DROP`, `TRUNCATE`  
+✔ **DCL (Data Control Language):** `GRANT`, `REVOKE`  
+✔ **Database Management Commands:** `SHOW DATABASES`, `USE`  
+
+This program fulfills **all** the requirements given in your assignment. Let me know if you need modifications or explanations! 😊
