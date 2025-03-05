@@ -1,0 +1,73 @@
+-- 1) List total loan.
+SELECT SUM(Amount) AS Total_Loan FROM BORROW;
+
+-- 2) List total deposit.
+SELECT SUM(Amount) AS Total_Deposit FROM DEPOSIT;
+
+-- 3) List maximum deposit of customers living in Ernakulam.
+SELECT MAX(D.Amount) AS Max_Deposit
+FROM DEPOSIT D
+JOIN CUSTOMER C ON D.Cust_id = C.Cust_id
+WHERE C.City = 'Ernakulam';
+
+-- 4) Count total number of branch cities.
+SELECT COUNT(DISTINCT City) AS Total_Branch_Cities FROM BRANCH;
+
+-- 5) List branch_id and branch wise deposit.
+SELECT Branch_id, SUM(Amount) AS Total_Deposit
+FROM DEPOSIT
+GROUP BY Branch_id;
+
+-- 6) List the branches having sum of deposit more than 4000.
+SELECT Branch_id, SUM(Amount) AS Total_Deposit
+FROM DEPOSIT
+GROUP BY Branch_id
+HAVING SUM(Amount) > 4000;
+
+-- 7) List the names of customers having minimum deposit.
+SELECT C.C_name
+FROM CUSTOMER C
+JOIN DEPOSIT D ON C.Cust_id = D.Cust_id
+WHERE D.Amount = (SELECT MIN(Amount) FROM DEPOSIT);
+
+-- 8) Count the number of depositors living in ‘Cherthala’.
+SELECT COUNT(DISTINCT C.Cust_id) AS Depositors_Count
+FROM CUSTOMER C
+JOIN DEPOSIT D ON C.Cust_id = D.Cust_id
+WHERE C.City = 'Cherthala';
+
+-- 9) Find the maximum deposit of the Alappuzha branch.
+SELECT MAX(Amount) AS Max_Deposit
+FROM DEPOSIT
+WHERE Branch_id = (SELECT Branch_id FROM BRANCH WHERE City = 'Alappuzha');
+
+-- 10) Find out number of customers living in Ernakulam.
+SELECT COUNT(*) AS Customers_In_Ernakulam
+FROM CUSTOMER
+WHERE City = 'Ernakulam';
+
+-- 11) Find out the customers who are not living in Ernakulam or Alappuzha.
+SELECT Cust_id, C_name, City
+FROM CUSTOMER
+WHERE City NOT IN ('Ernakulam', 'Alappuzha');
+
+-- 12) List out Cust_id and C_name in descending order of their C_name.
+SELECT Cust_id, C_name
+FROM CUSTOMER
+ORDER BY C_name DESC;
+
+-- 13) Display the number of depositors in branch wise.
+SELECT Branch_id, COUNT(DISTINCT Cust_id) AS Depositors_Count
+FROM DEPOSIT
+GROUP BY Branch_id;
+
+-- 14) Find out the branch which has no borrowers.
+SELECT B.Branch_id, B.bname
+FROM BRANCH B
+LEFT JOIN BORROW BW ON B.Branch_id = BW.Branch_id
+WHERE BW.Branch_id IS NULL;
+
+-- 15) How many customers have opened deposit after ’01-01-2016’
+SELECT COUNT(*) AS Depositors_After_2016
+FROM DEPOSIT
+WHERE Open_date > '2016-01-01';
